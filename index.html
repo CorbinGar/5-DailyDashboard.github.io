@@ -28,11 +28,73 @@
       <p class="lead">A simple calendar app for scheduling your work day</p>
       <p id="currentDay" class="lead"></p>
     </header>
-    <div class="container">
+    <div class="container" id="timeblocks">
       <!-- Timeblocks go here -->
     </div>
 
+
+
+
+
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+
+
+    <script type="text/javascript">
+
+      //alert("this worked")
+
+
+
+      var workhours = ["9am","10am","11am","12am","1pm","2pm","3pm","4pm","5pm"] 
+
+
+     gentimeslot(workhours,"#timeblocks")
+
+
+
+
+      function gentimeslot(array,target){
+
+
+
+        for (var i = 0; i < array.length; i++) {
+        var Div = $("<div>");
+        var Btn = $("<button>");
+        var Textbox = $("<textarea>");
+        var Text = $("<p>");
+        
+
+        Div.addClass("row");
+        
+        Textbox.addClass("col-sm-9");
+
+
+        Text.text(array[i])
+        Text.addClass("col-sm-1");
+
+        Btn.addClass("ques-button btn btn-primary col-sm-2");
+        Btn.attr("Timeslot", array[i]);
+        Btn.text("lock");
+
+
+        $(target).append(Div);
+
+        $(Div).append(Text);
+        $(Div).append(Textbox);
+        $(Div).append(Btn);
+        $(Div).append(Btn);
+
+      }
+
+      }
+
+   </script>
+
+
+
   </body>
 </html>
