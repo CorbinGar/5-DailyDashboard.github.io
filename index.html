@@ -23,14 +23,14 @@
   </head>
 
   <body>
-    <header class="jumbotron">
-      <h1 class="display-3">Work Day Scheduler</h1>
-      <p class="lead">A simple calendar app for scheduling your work day</p>
-      <p id="currentDay" class="lead"></p>
-    </header>
-    <div class="container" id="timeblocks">
-      <!-- Timeblocks go here -->
-    </div>
+        <header class="jumbotron">
+        <h1 class="display-3">Work Day Scheduler</h1>
+        <p class="lead">A simple calendar app for scheduling your work day</p>
+        <p id="currentDay" class="lead"></p>
+        </header>
+        <div class="container" id="timeblocks">
+        <!-- Timeblocks go here -->
+        </div>
 
 
 
@@ -38,63 +38,129 @@
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+        <script type="text/javascript">
 
 
 
-    <script type="text/javascript">
-
-      //alert("this worked")
-
-
-
-      var workhours = ["9am","10am","11am","12am","1pm","2pm","3pm","4pm","5pm"] 
-
-
-     gentimeslot(workhours,"#timeblocks")
+        //create an array of items called timeslots 
+        var workdaystart = 9
+        var workdayend = 17
+        var timeslots = []
 
 
 
+        function init() {
+        // Get stored todos from localStorage
+        var storedtimeslots = JSON.parse(localStorage.getItem("timeslots"));
+    
+        // If todos were retrieved from localStorage, update the todos array to it
+        if (storedtimeslots !== null) {
+            timeslots = storedtimeslots;
+        }
 
-      function gentimeslot(array,target){
+
+  
+
+        // This is a helper function that will render todos to the DOM
+        render($("#timeblocks"),workdaystart,workdayend)
+        }
 
 
-
-        for (var i = 0; i < array.length; i++) {
-        var Div = $("<div>");
-        var Btn = $("<button>");
-        var Textbox = $("<textarea>");
-        var Text = $("<p>");
         
-
-        Div.addClass("row");
-        
-        Textbox.addClass("col-sm-9");
-
-
-        Text.text(array[i])
-        Text.addClass("col-sm-1");
-
-        Btn.addClass("ques-button btn btn-primary col-sm-2");
-        Btn.attr("Timeslot", array[i]);
-        Btn.text("lock");
-
-
-        $(target).append(Div);
-
-        $(Div).append(Text);
-        $(Div).append(Textbox);
-        $(Div).append(Btn);
-        $(Div).append(Btn);
-
-      }
-
-      }
-
-   </script>
+         
+    
 
 
 
-  </body>
+
+
+        function render(target,start,end){
+            for (var i = start; (end + 1) > i; i++){
+                var textoverwrite = timeslots[i]
+
+
+                var Div = $("<div>");
+                var Btn = $("<button>");
+                var Textbox = $("<textarea>");
+                var Text = $("<p>");
+
+
+                Text.text(i + ":00")
+
+                if (textoverwrite !== null){
+
+
+
+
+
+                Textbox.text(textoverwrite);
+
+                }
+                
+                
+
+
+                Div.addClass("row");
+                Textbox.addClass("col-sm-9");
+                Text.addClass("col-sm-1");
+                Btn.addClass("slot-button btn btn-primary col-sm-2");
+                Textbox.attr("id", i)
+                Btn.text("lock");
+                Btn.attr("value", i)
+                $(target).append(Div);                
+                $(Div).append(Text);
+                $(Div).append(Textbox);
+                $(Div).append(Btn); 
+
+
+             
+            }
+
+            $(".slot-button").on("click", function() {
+                var targetid = $(this).attr("value") 
+                var texttostore = document.getElementById( targetid );
+                texttostore = texttostore.value
+
+                if(timeslots[targetid] == null){
+                timeslots[targetid] = texttostore
+                }else{
+                timeslots[targetid] = null
+                }
+
+                storeTimeslots()
+            });
+        }
+
+
+        function storeTimeslots() {
+        // Stringify and set key in localStorage to todos array
+         localStorage.setItem("timeslots", JSON.stringify(timeslots));
+        }
+
+
+        //each timeslot has the time and a text value
+        //sync timeslots with storage timeslots
+        //render timeslots
+
+
+
+        //function render "it renders all timeslots and puts them on the board"
+        //function sync "it renders all timeslots and puts them on the board"
+        //function save "saves the text to the timeslots "
+
+
+
+
+
+
+
+
+        init()
+        </script>
+
+
+
+    </body>
 </html>
