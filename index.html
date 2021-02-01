@@ -52,35 +52,25 @@
 
 
         function init() {
-        // Get stored todos from localStorage
+        // Get stored values from localStorage
         var storedtimeslots = JSON.parse(localStorage.getItem("timeslots"));
     
-        // If todos were retrieved from localStorage, update the todos array to it
+        // check to see if storage is blank
         if (storedtimeslots !== null) {
             timeslots = storedtimeslots;
         }
-
-
-  
-
-        // This is a helper function that will render todos to the DOM
+        
+        // render with the updated values from localstorage
         render($("#timeblocks"),workdaystart,workdayend)
         }
 
 
-        
-         
-    
-
-
-
-
-
         function render(target,start,end){
             for (var i = start; (end + 1) > i; i++){
+                //load the overwrite value
                 var textoverwrite = timeslots[i]
 
-
+                //define key players of the timeslot
                 var Div = $("<div>");
                 var Btn = $("<button>");
                 var Textbox = $("<textarea>");
@@ -89,19 +79,12 @@
 
                 Text.text(i + ":00")
 
+                //check to see if we have a value in storage if so overwrite the value with the one in storage
                 if (textoverwrite !== null){
-
-
-
-
-
                 Textbox.text(textoverwrite);
-
                 }
-                
-                
 
-
+                //classing for the timeslot "probably an easier way to do this"
                 Div.addClass("row");
                 Textbox.addClass("col-sm-9");
                 Text.addClass("col-sm-1");
@@ -109,58 +92,44 @@
                 Textbox.attr("id", i)
                 Btn.text("lock");
                 Btn.attr("value", i)
+
+                //render a timeslot
                 $(target).append(Div);                
                 $(Div).append(Text);
                 $(Div).append(Textbox);
                 $(Div).append(Btn); 
-
-
-             
             }
 
             $(".slot-button").on("click", function() {
+                //grab the id assigned in the render function
                 var targetid = $(this).attr("value") 
+
+                //grab the text in the same div as the button using the textboxes id and the buttons id which are identical
                 var texttostore = document.getElementById( targetid );
+
+                //set the text to store equal to the value of the textbox
                 texttostore = texttostore.value
 
+                //if it value is defined clear it
+                //if the value is not defined define it
                 if(timeslots[targetid] == null){
                 timeslots[targetid] = texttostore
                 }else{
                 timeslots[targetid] = null
                 }
-
+             
                 storeTimeslots()
             });
         }
 
 
         function storeTimeslots() {
-        // Stringify and set key in localStorage to todos array
+        // Stringify and sync the storage array with the local array
          localStorage.setItem("timeslots", JSON.stringify(timeslots));
         }
 
 
-        //each timeslot has the time and a text value
-        //sync timeslots with storage timeslots
-        //render timeslots
-
-
-
-        //function render "it renders all timeslots and puts them on the board"
-        //function sync "it renders all timeslots and puts them on the board"
-        //function save "saves the text to the timeslots "
-
-
-
-
-
-
-
-
         init()
         </script>
-
-
-
     </body>
 </html>
