@@ -26,7 +26,7 @@
         <header class="jumbotron">
         <h1 class="display-3">Work Day Scheduler</h1>
         <p class="lead">A simple calendar app for scheduling your work day</p>
-        <p id="currentDay" class="lead"></p>
+        <p id="currentDay" class="lead"> replace me</p>
         </header>
         <div class="container" id="timeblocks">
         <!-- Timeblocks go here -->
@@ -37,18 +37,22 @@
 
 
 
-
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+        <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
         <script type="text/javascript">
-
+       
 
 
         //create an array of items called timeslots 
-        var workdaystart = 9
-        var workdayend = 17
+        var workdaystart = 1
+        var workdayend = 24
         var timeslots = []
+        var hour = dayjs().hour()
 
+
+        $("#currentDay").text(dayjs())
 
 
         function init() {
@@ -83,6 +87,14 @@
                 if (textoverwrite !== null){
                 Textbox.text(textoverwrite);
                 }
+
+                if (hour == i){
+                Textbox.attr("style", "background-color:tomato");
+                }
+                if (hour < i){
+                Textbox.attr("style", "background-color:mediumseagreen");
+                }
+
 
                 //classing for the timeslot "probably an easier way to do this"
                 Div.addClass("row");
